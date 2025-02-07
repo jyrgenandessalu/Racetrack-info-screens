@@ -16,7 +16,7 @@ The Racetrack App is a real-time race management system built with Node.js, Reac
 ---
 
 ## How to Run the Server
-    Clone the repository
+- Clone the repository
     ```bash
    https://github.com/jyrgenandessalu/Racetrack-info-screens.git
    ```
