@@ -1,0 +1,19 @@
+{
+  "name": "racetrack",
+  "version": "1.0.0",
+  "description": "## Overview The Racetrack App is a real-time race management system built with Node.js and Socket.IO. It allows receptionists, safety officials, and spectators to manage and view race sessions efficiently. This application includes interfaces for various roles, each designed to simplify specific tasks.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://gitea.kood.tech/jurgenandessalu/racetrack.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "racetrack": "file:"
+  }
+}
