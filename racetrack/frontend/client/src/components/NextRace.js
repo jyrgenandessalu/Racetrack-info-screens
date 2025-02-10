@@ -10,10 +10,8 @@ const NextRace = () => {
     const [message, setMessage] = useState("");
 
     const fetchNextRace = useCallback(() => {
-
-        const nextAvailableRace = raceSessions.find(session => 
-            (session.status === 'upcoming' || session.status === 'confirmed') &&
-            session.status !== 'in-progress'
+        const nextAvailableRace = raceSessions.find(
+            (session) => session.status === "upcoming" || session.status === "confirmed"
         );
 
         setLoading(false);
@@ -23,43 +21,43 @@ const NextRace = () => {
                 sessionName: nextAvailableRace.sessionName,
                 drivers: nextAvailableRace.drivers.map((driver, index) => ({
                     ...driver,
-                    car: `Car ${index + 1}`
-                }))
+                    car: `Car ${index + 1}`,
+                })),
             });
+            setMessage("Please proceed to paddock");
         } else {
             setNextRace(null);
-            setMessage("No upcoming race available");
+            setMessage("");
         }
     }, [raceSessions]);
 
     useEffect(() => {
         if (!socket) return;
 
-        socket.on('select-session', () => {
+        socket.on("select-session", () => {
             fetchNextRace();
         });
 
-        socket.on('race-started', () => {
-            setMessage("");
-            fetchNextRace();
-        });
-
-        socket.on('race-mode-changed', (mode) => {
-            fetchNextRace();
-        });
-
-        socket.on('end-race-session', () => {
+        socket.on("race-started", () => {
             setMessage("Please proceed to paddock");
+            fetchNextRace();
+        });
+
+        socket.on("race-mode-changed", () => {
+            fetchNextRace();
+        });
+
+        socket.on("end-race-session", () => {
             fetchNextRace();
         });
 
         fetchNextRace();
 
         return () => {
-            socket.off('select-session');
-            socket.off('race-started');
-            socket.off('race-mode-changed');
-            socket.off('end-race-session');
+            socket.off("select-session");
+            socket.off("race-started");
+            socket.off("race-mode-changed");
+            socket.off("end-race-session");
         };
     }, [socket, fetchNextRace]);
 
@@ -67,16 +65,15 @@ const NextRace = () => {
         document.title = "Next Race";
     }, []);
 
-    // ** Full-Screen Toggle Function **
-        const toggleFullScreen = () => {
-            const element = document.documentElement;
-            if (!document.fullscreenElement) {
-             element.requestFullscreen().catch(err => {
-                 console.error(`Error attempting to enable full-screen mode: ${err.message}`);
-              });
-          } else {
-                document.exitFullscreen();
-          }
+    const toggleFullScreen = () => {
+        const element = document.documentElement;
+        if (!document.fullscreenElement) {
+            element.requestFullscreen().catch((err) => {
+                console.error(`Error attempting to enable full-screen mode: ${err.message}`);
+            });
+        } else {
+            document.exitFullscreen();
+        }
     };
 
     return (
@@ -95,12 +92,8 @@ const NextRace = () => {
                         <ul style={styles.driversList}>
                             {nextRace.drivers.map((driver) => (
                                 <li key={driver.id} style={styles.driverItem}>
-                                    <span style={styles.driverName}>
-                                        {driver.name}
-                                    </span>
-                                    <span style={styles.carNumber}>
-                                        {driver.car}
-                                    </span>
+                                    <span style={styles.driverName}>{driver.name}</span>
+                                    <span style={styles.carNumber}>{driver.car}</span>
                                 </li>
                             ))}
                         </ul>
@@ -126,9 +119,16 @@ const styles = {
         fontFamily: "'Arial', sans-serif",
     },
     fullScreenButton: {
-        position: "absolute", top: "10px", right: "10px", padding: "10px",
-        fontSize: "16px", cursor: "pointer", background: "#007BFF",
-        color: "#fff", border: "none", borderRadius: "5px"
+        position: "absolute",
+        top: "10px",
+        right: "10px",
+        padding: "10px",
+        fontSize: "16px",
+        cursor: "pointer",
+        background: "#007BFF",
+        color: "#fff",
+        border: "none",
+        borderRadius: "5px",
     },
     title: {
         fontSize: "32px",
@@ -144,11 +144,6 @@ const styles = {
         textAlign: "center",
         maxWidth: "400px",
         width: "100%",
-    },
-    subTitle: {
-        fontSize: "24px",
-        fontWeight: "bold",
-        marginBottom: "10px",
     },
     sessionName: {
         fontSize: "18px",
@@ -189,7 +184,7 @@ const styles = {
         color: "#dc3545",
         fontWeight: "bold",
         textAlign: "center",
-    }
+    },
 };
 
 export default NextRace;
